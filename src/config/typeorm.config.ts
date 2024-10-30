@@ -21,8 +21,6 @@ export class TypeOrmConfigService implements TypeOrmOptionsFactory {
       synchronize: false,
     };
 
-    console.log(process.env.NODE_ENV);
-
     this.testDatabaseConnection(options);
 
     return options;
