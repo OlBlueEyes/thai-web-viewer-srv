@@ -1,7 +1,6 @@
 import { Injectable, Logger } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { TypeOrmModuleOptions, TypeOrmOptionsFactory } from '@nestjs/typeorm';
-import { DataSource, DataSourceOptions } from 'typeorm';
 
 @Injectable()
 export class TypeOrmConfigService implements TypeOrmOptionsFactory {
@@ -20,23 +19,6 @@ export class TypeOrmConfigService implements TypeOrmOptionsFactory {
       entities: [__dirname + '/../shared/**/*.entity.js'],
       synchronize: false,
     };
-
-    this.testDatabaseConnection(options);
-
     return options;
-  }
-
-  private async testDatabaseConnection(options: TypeOrmModuleOptions): Promise<void> {
-    const dataSource = new DataSource(options as DataSourceOptions);
-
-    try {
-      await dataSource.initialize();
-      this.logger.log('Database connection established successfully');
-    } catch (error) {
-      this.logger.error('Failed to connect to the database', error.stack);
-      throw new Error('Failed to connect to the database');
-    } finally {
-      await dataSource.destroy();
-    }
   }
 }
