@@ -6,6 +6,10 @@ import * as path from 'path';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { TypeOrmConfigService } from './config/typeorm.config';
 import { RequestLoggerMiddleware } from './common/middlewares/request-logger.middleware';
+import { ViewerModule } from './modules/viewer/viewer.module';
+import { PoiModule } from './modules/poi/poi.module';
+import { VlmModule } from './modules/vlm/vlm.module';
+import { HealthModule } from './modules/health/health.module';
 
 const envFilePath = path.resolve(process.cwd(), `.env.${process.env.NODE_ENV || 'local'}`);
 
@@ -18,6 +22,10 @@ const envFilePath = path.resolve(process.cwd(), `.env.${process.env.NODE_ENV || 
     TypeOrmModule.forRootAsync({
       useClass: TypeOrmConfigService,
     }),
+    HealthModule,
+    PoiModule,
+    VlmModule,
+    ViewerModule,
   ],
   controllers: [AppController],
   providers: [AppService],

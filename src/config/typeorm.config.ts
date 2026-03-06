@@ -7,6 +7,7 @@ export class TypeOrmConfigService implements TypeOrmOptionsFactory {
   constructor(private readonly configService: ConfigService) {}
 
   createTypeOrmOptions(): TypeOrmModuleOptions {
+    const schema = this.configService.get<string>('DB_SCHEMA');
     const options: TypeOrmModuleOptions = {
       type: 'postgres',
       host: this.configService.get<string>('DB_HOST'),
@@ -14,6 +15,7 @@ export class TypeOrmConfigService implements TypeOrmOptionsFactory {
       username: this.configService.get<string>('DB_USERNAME'),
       password: this.configService.get<string>('DB_PASSWORD'),
       database: this.configService.get<string>('DB_DATABASE'),
+      ...(schema ? { schema } : {}),
       entities: [__dirname + '/../shared/**/*.entity.js'],
       synchronize: false,
     };
